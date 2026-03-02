@@ -47,43 +47,81 @@ async function main() {
   console.log('✅ Users created');
 
   // Create categories
-  const categories = await Promise.all([
-    prisma.category.upsert({ where: { name: 'إلكترونيات' }, update: {}, create: { name: 'إلكترونيات', description: 'أجهزة إلكترونية ومستلزماتها' } }),
-    prisma.category.upsert({ where: { name: 'مواد غذائية' }, update: {}, create: { name: 'مواد غذائية', description: 'منتجات غذائية متنوعة' } }),
-    prisma.category.upsert({ where: { name: 'ملابس' }, update: {}, create: { name: 'ملابس', description: 'ملابس رجالية ونسائية' } }),
-    prisma.category.upsert({ where: { name: 'أدوات منزلية' }, update: {}, create: { name: 'أدوات منزلية', description: 'مستلزمات المنزل' } }),
-  ]);
+  const catPackaging = await prisma.category.upsert({
+    where: { name: 'عبوات' },
+    update: {},
+    create: { name: 'عبوات', description: 'عبوات بلاستيك وصفيح' },
+  });
+
+  const catStickers = await prisma.category.upsert({
+    where: { name: 'استيكرات' },
+    update: {},
+    create: { name: 'استيكرات', description: 'استيكرات للعبوات' },
+  });
+
+  const catSupplies = await prisma.category.upsert({
+    where: { name: 'مستلزمات تغليف' },
+    update: {},
+    create: { name: 'مستلزمات تغليف', description: 'شرينك وكراتين ودوباره وقماش' },
+  });
 
   console.log('✅ Categories created');
 
-  // Create sample products
+  // All products
   const products = [
-    { name: 'لابتوب HP ProBook', sku: 'ELEC-001', barcode: '1000000001', price: 15000, cost: 12000, categoryId: categories[0].id, alertQuantity: 5, taxRate: 0 },
-    { name: 'ماوس لاسلكي', sku: 'ELEC-002', barcode: '1000000002', price: 350, cost: 200, categoryId: categories[0].id, alertQuantity: 20, taxRate: 0 },
-    { name: 'سماعات بلوتوث', sku: 'ELEC-003', barcode: '1000000003', price: 1200, cost: 700, categoryId: categories[0].id, alertQuantity: 10, taxRate: 0 },
-    { name: 'أرز بسمتي 5 كجم', sku: 'FOOD-001', barcode: '2000000001', price: 120, cost: 85, categoryId: categories[1].id, alertQuantity: 50, taxRate: 0 },
-    { name: 'زيت زيتون 1 لتر', sku: 'FOOD-002', barcode: '2000000002', price: 180, cost: 130, categoryId: categories[1].id, alertQuantity: 30, taxRate: 0 },
-    { name: 'قميص رجالي كلاسيك', sku: 'CLTH-001', barcode: '3000000001', price: 450, cost: 250, categoryId: categories[2].id, alertQuantity: 15, taxRate: 0 },
-    { name: 'طقم أطباق 24 قطعة', sku: 'HOME-001', barcode: '4000000001', price: 850, cost: 500, categoryId: categories[3].id, alertQuantity: 10, taxRate: 0 },
-    { name: 'شاحن USB-C سريع', sku: 'ELEC-004', barcode: '1000000004', price: 250, cost: 120, categoryId: categories[0].id, alertQuantity: 25, taxRate: 0 },
+    // عبوات بلاستيك زيت
+    { name: 'بلاستيك ربع لتر', sku: 'PKG-PL-250', price: 0, cost: 0, categoryId: catPackaging.id, unit: 'piece', alertQuantity: 50 },
+    { name: 'بلاستيك نص لتر', sku: 'PKG-PL-500', price: 0, cost: 0, categoryId: catPackaging.id, unit: 'piece', alertQuantity: 50 },
+    { name: 'بلاستيك لتر', sku: 'PKG-PL-1000', price: 0, cost: 0, categoryId: catPackaging.id, unit: 'piece', alertQuantity: 50 },
+    // صفيح
+    { name: 'صفيح نص لتر', sku: 'PKG-TN-500', price: 0, cost: 0, categoryId: catPackaging.id, unit: 'piece', alertQuantity: 50 },
+    { name: 'صفيح لتر', sku: 'PKG-TN-1000', price: 0, cost: 0, categoryId: catPackaging.id, unit: 'piece', alertQuantity: 50 },
+    // عبوات عسل
+    { name: 'بلاستيك عسل كيلو', sku: 'PKG-HN-1000', price: 0, cost: 0, categoryId: catPackaging.id, unit: 'piece', alertQuantity: 30 },
+    { name: 'بلاستيك عسل نص كيلو', sku: 'PKG-HN-500', price: 0, cost: 0, categoryId: catPackaging.id, unit: 'piece', alertQuantity: 30 },
+
+    // استيكرات بلاستيك زيت
+    { name: 'استيكر بلاستيك ربع لتر', sku: 'STK-PL-250', price: 0, cost: 0, categoryId: catStickers.id, unit: 'piece', alertQuantity: 50 },
+    { name: 'استيكر بلاستيك نص لتر', sku: 'STK-PL-500', price: 0, cost: 0, categoryId: catStickers.id, unit: 'piece', alertQuantity: 50 },
+    { name: 'استيكر بلاستيك لتر', sku: 'STK-PL-1000', price: 0, cost: 0, categoryId: catStickers.id, unit: 'piece', alertQuantity: 50 },
+    // استيكرات صفيح
+    { name: 'استيكر صفيح نص لتر', sku: 'STK-TN-500', price: 0, cost: 0, categoryId: catStickers.id, unit: 'piece', alertQuantity: 50 },
+    { name: 'استيكر صفيح لتر', sku: 'STK-TN-1000', price: 0, cost: 0, categoryId: catStickers.id, unit: 'piece', alertQuantity: 50 },
+    // استيكرات عسل
+    { name: 'استيكر عسل نص كيلو', sku: 'STK-HN-500', price: 0, cost: 0, categoryId: catStickers.id, unit: 'piece', alertQuantity: 30 },
+    { name: 'استيكر عسل كيلو', sku: 'STK-HN-1000', price: 0, cost: 0, categoryId: catStickers.id, unit: 'piece', alertQuantity: 30 },
+
+    // شرينك
+    { name: 'شرينك ربع لتر', sku: 'SHR-250', price: 0, cost: 0, categoryId: catSupplies.id, unit: 'piece', alertQuantity: 50 },
+    { name: 'شرينك نص لتر', sku: 'SHR-500', price: 0, cost: 0, categoryId: catSupplies.id, unit: 'piece', alertQuantity: 50 },
+    { name: 'شرينك لتر', sku: 'SHR-1000', price: 0, cost: 0, categoryId: catSupplies.id, unit: 'piece', alertQuantity: 50 },
+
+    // كراتين
+    { name: 'كراتين ربع لتر', sku: 'CRT-250', price: 0, cost: 0, categoryId: catSupplies.id, unit: 'piece', alertQuantity: 30 },
+    { name: 'كراتين نص لتر', sku: 'CRT-500', price: 0, cost: 0, categoryId: catSupplies.id, unit: 'piece', alertQuantity: 30 },
+    { name: 'كراتين لتر', sku: 'CRT-1000', price: 0, cost: 0, categoryId: catSupplies.id, unit: 'piece', alertQuantity: 30 },
+
+    // مستلزمات أخرى
+    { name: 'دوباره', sku: 'SUP-ROPE', price: 0, cost: 0, categoryId: catSupplies.id, unit: 'piece', alertQuantity: 20 },
+    { name: 'قماشه لتغطيه العسل', sku: 'SUP-CLOTH', price: 0, cost: 0, categoryId: catSupplies.id, unit: 'piece', alertQuantity: 20 },
   ];
 
-  for (const productData of products) {
+  for (const p of products) {
     const product = await prisma.product.upsert({
-      where: { sku: productData.sku },
+      where: { sku: p.sku },
       update: {},
-      create: productData,
+      create: p,
     });
 
     // Add stock to main branch
     await prisma.branchProduct.upsert({
       where: { branchId_productId: { branchId: mainBranch.id, productId: product.id } },
       update: {},
-      create: { branchId: mainBranch.id, productId: product.id, quantity: Math.floor(Math.random() * 100) + 20 },
+      create: { branchId: mainBranch.id, productId: product.id, quantity: 0 },
     });
   }
 
-  console.log('✅ Products and stock created');
+  console.log(`✅ ${products.length} products created`);
 
   // Create sample customer
   await prisma.customer.upsert({
