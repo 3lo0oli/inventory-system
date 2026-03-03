@@ -18,17 +18,17 @@ import {
 import { useAuth } from '../context/AuthContext';
 
 const menuItems = [
-  { label: 'لوحة التحكم', icon: FiHome, path: '/' },
-  { label: 'التصنيفات', icon: FiGrid, path: '/categories' },
-  { label: 'المنتجات', icon: FiBox, path: '/products' },
-  { label: 'نقطة البيع', icon: FiShoppingCart, path: '/pos' },
-  { label: 'الفواتير', icon: FiFileText, path: '/invoices' },
-  { label: 'المخزون', icon: FiPackage, path: '/inventory' },
-  { label: 'مكونات المنتجات', icon: FiLayers, path: '/components' },
-  { label: 'التقارير', icon: FiBarChart2, path: '/reports' },
-  { label: 'المستخدمين', icon: FiUsers, path: '/users' },
-  { label: 'العملاء', icon: FiUserCheck, path: '/customers' },
-  { label: 'سجل النشاطات', icon: FiActivity, path: '/activity' },
+  { label: 'لوحة التحكم', icon: FiHome, path: '/', permission: null },
+  { label: 'التصنيفات', icon: FiGrid, path: '/categories', permission: 'categories:read' },
+  { label: 'المنتجات', icon: FiBox, path: '/products', permission: 'products:read' },
+  { label: 'نقطة البيع', icon: FiShoppingCart, path: '/pos', permission: 'invoices:create' },
+  { label: 'الفواتير', icon: FiFileText, path: '/invoices', permission: 'invoices:read' },
+  { label: 'المخزون', icon: FiPackage, path: '/inventory', permission: 'inventory:read' },
+  { label: 'مكونات المنتجات', icon: FiLayers, path: '/components', permission: 'products:read' },
+  { label: 'التقارير', icon: FiBarChart2, path: '/reports', permission: 'reports:read' },
+  { label: 'المستخدمين', icon: FiUsers, path: '/users', permission: 'users:read' },
+  { label: 'العملاء', icon: FiUserCheck, path: '/customers', permission: 'customers:read' },
+  { label: 'سجل النشاطات', icon: FiActivity, path: '/activity', permission: 'activity:read' },
 ];
 
 export default function Sidebar({ isOpen, onClose }) {
@@ -71,7 +71,7 @@ export default function Sidebar({ isOpen, onClose }) {
             {menuItems.map((item) => {
               const Icon = item.icon;
 
-              if (hasPermission && !hasPermission(item.path)) {
+              if (item.permission && hasPermission && !hasPermission(item.permission)) {
                 return null;
               }
 
