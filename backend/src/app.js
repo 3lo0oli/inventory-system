@@ -61,6 +61,16 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Serve frontend in production
+const frontendPath = path.join(__dirname, '..', 'public');
+const fs = require('fs');
+if (fs.existsSync(frontendPath)) {
+  app.use(express.static(frontendPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+}
+
 // Error handling
 app.use(notFound);
 app.use(errorHandler);
