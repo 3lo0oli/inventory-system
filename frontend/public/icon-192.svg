@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <rect width="192" height="192" rx="32" fill="#1e293b"/>
+  <g transform="translate(96,96)">
+    <!-- Box icon -->
+    <path d="M-40,-45 L0,-60 L40,-45 L40,10 L0,25 L-40,10 Z" fill="none" stroke="#2563eb" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M-40,-45 L0,-30 L40,-45" fill="none" stroke="#2563eb" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M0,-30 L0,25" fill="none" stroke="#2563eb" stroke-width="5"/>
+    <!-- Arrow -->
+    <path d="M-15,40 L0,55 L15,40" fill="none" stroke="#60a5fa" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text y="75" text-anchor="middle" fill="white" font-size="18" font-family="Arial" font-weight="bold">المخزون</text>
+  </g>
+</svg>
