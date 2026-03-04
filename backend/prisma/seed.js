@@ -117,7 +117,7 @@ async function main() {
     await prisma.branchProduct.upsert({
       where: { branchId_productId: { branchId: mainBranch.id, productId: product.id } },
       update: {},
-      create: { branchId: mainBranch.id, productId: product.id, quantity: 0 },
+      create: { branchId: mainBranch.id, productId: product.id, quantity: 100 },
     });
   }
 
